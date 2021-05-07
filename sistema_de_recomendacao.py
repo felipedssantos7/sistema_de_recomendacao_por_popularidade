@@ -24,10 +24,10 @@ print(df.describe(include='all'))
 print(df.isnull().sum())
 
 # grafico de frequencia
-# plt.figure(figsize=(6,3)) # dimensoes da telinha
-# sns.countplot('rating', data=df, alpha=0.85)  # mostra grafico de frequencia das avaliacoes
-# plt.xlabel('Ratings', size=6)
-# plt.show() # mostra telinha
+plt.figure(figsize=(6,3)) # dimensoes da telinha
+sns.countplot('rating', data=df, alpha=0.85)  # mostra grafico de frequencia das avaliacoes
+plt.xlabel('Ratings', size=6)
+plt.show() # mostra telinha
 
 # informacoes importantes
 num_ratings = len(df); # numero de avaliacoes
@@ -41,24 +41,24 @@ print('Media de avaliacoes por usuario: ' + str(avg_ratings_users))
 # usuarios que mais avaliaram produtos
 more = df.groupby('user_id').rating.count().sort_values(ascending=False)
 # exibe telinha com usuarios que mais avaliaram produtos
-# plt.figure(figsize=(10,5))
-# more.head(10).plot(kind='bar', alpha=0.9, width=0.85)
-# plt.title('Usuarios que mais avaliaram produtos', size=15)
-# plt.show()
+plt.figure(figsize=(10,5))
+more.head(10).plot(kind='bar', alpha=0.9, width=0.85)
+plt.title('Usuarios que mais avaliaram produtos', size=15)
+plt.show()
 
 # criacao de um conjunto de quantis de 0 a 100% com etapa de 1%
-# quantiles = more.quantile(np.arange(0, 1.01, 0.01), interpolation='higher')
+quantiles = more.quantile(np.arange(0, 1.01, 0.01), interpolation='higher')
 # escala de registro de quantis
-# quantiles_log = np.log(quantiles)
+quantiles_log = np.log(quantiles)
 # grafico dos quantis
-# fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(17,6))
-# ax1.plot(quantiles_log, c='red')
-# ax2.plot(quantiles, linewidth=2)
-# fig.suptitle('Avalicoes de usuarios - Grafico de registro de quantis | Grafico de quantis', size=18)
-# plt.xlabel('Quantis')
-# plt.ylabel('Numero de avalicoes')
-# plt.xticks(np.arange(0, 1.01, 0.1))
-# plt.show()
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(17,6))
+ax1.plot(quantiles_log, c='red')
+ax2.plot(quantiles, linewidth=2)
+fig.suptitle('Avalicoes de usuarios - Grafico de registro de quantis | Grafico de quantis', size=18)
+plt.xlabel('Quantis')
+plt.ylabel('Numero de avalicoes')
+plt.xticks(np.arange(0, 1.01, 0.1))
+plt.show()
 
 # quantidade de usuarios que avaliaram mais de 50 produtos
 print('Quantidade de usuarios que avaliaram 50 ou mais produtos: ' + str(sum(more>=50)))
@@ -75,13 +75,13 @@ ratings_df['rating_counts'] = new_df.groupby('prod_id').rating.count()
 print(ratings_df.sort_values(by='rating_counts', ascending=False).head(5))
 
 # grafico de quantidade de avaliacoes de produtos
-# ratings_df.rating_counts.hist(bins=50)
-# plt.title('Grafico de frequencia de produtos por numero de avaliacoes')
-# plt.show()
+ratings_df.rating_counts.hist(bins=50)
+plt.title('Grafico de frequencia de produtos por numero de avaliacoes')
+plt.show()
 
 # grafico de dispersao das medidas de avaliacoes vs quantidades de avaliacoes
-# sns.jointplot(x='rating', y='rating_counts', data=ratings_df, alpha=0.4)
-# plt.show()
+sns.jointplot(x='rating', y='rating_counts', data=ratings_df, alpha=0.4)
+plt.show()
 
 # media global das avaliacoes
 C = ratings_df['rating'].mean()
@@ -103,5 +103,3 @@ ratings_df['score'] = ratings_df.apply(weighted_rating, axis=1)
 
 # resultado final com o top 15 dos produtos mais populares
 print(ratings_df.sort_values(by='score', ascending=False).head(15))
-
-
